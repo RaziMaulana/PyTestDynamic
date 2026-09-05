@@ -35,6 +35,9 @@ async def generate_workspace_with_groq(payload: GenerateRequest):
     try:
         # PII Masking
         safe_prompt = mask_sensitive_data(payload.prompt)
+
+        print(f"\n[DEBUG] Asli   : {payload.prompt}")
+        print(f"[DEBUG] Sensor : {safe_prompt}\n")
         
         # Guardrail Tersembunyi
         guardrail = "\n\n(SISTEM: Jika prompt BUKAN evaluasi kesehatan serius, pastikan is_clinical_query = False. Jangan gunakan analogi.)"
