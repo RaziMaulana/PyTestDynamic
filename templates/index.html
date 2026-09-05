@@ -4,134 +4,89 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Biomechanic & Health Clinical Workspace</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Clinical Biomechanics Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="min-h-screen bg-slate-100/70 text-slate-800 font-sans pb-16">
 
-    <!-- Header Medis -->
     <header
         class="bg-white border-b border-slate-200 sticky top-0 z-20 px-6 py-3.5 flex items-center justify-between shadow-xs">
         <div class="flex items-center gap-3">
             <div
                 class="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-black text-base shadow-sm">
-                +
-            </div>
+                +</div>
             <div>
                 <h1 class="text-sm font-bold text-slate-900 leading-tight">Clinical Biomechanics Engine</h1>
-                <p class="text-xs text-slate-500">FastAPI & LangChain Medical-Grade Workspace</p>
+                <p class="text-xs text-slate-500">FastAPI Modular Workspace</p>
             </div>
-        </div>
-        <div class="flex items-center gap-2">
-            <span class="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-2.5 py-1 rounded-md font-medium">
-                Domain Terkunci: Health & Sports Science
-            </span>
         </div>
     </header>
 
-    <!-- Kontainer Utama -->
     <main class="max-w-6xl mx-auto px-6 mt-8">
-        <!-- Command Bar Khusus Klinis -->
         <section class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mb-8">
-            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                Instruksi Evaluasi Biomekanik & Pemulihan Fisik
-            </label>
+            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Instruksi Evaluasi
+                Biomekanik</label>
             <div class="flex flex-col sm:flex-row gap-3">
                 <input id="prompt-input" type="text"
-                    placeholder="Contoh: 'Evaluasi ketegangan leher dan pergelangan tangan akibat postur kerja kantor'..."
+                    placeholder="Contoh: 'Evaluasi nyeri leher dan pergelangan tangan akibat postur kerja'..."
                     class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:bg-white transition-all" />
                 <button id="btn-generate" onclick="handleGenerate()"
                     class="px-6 py-3 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shrink-0 shadow-sm">
                     <span id="btn-text">Rancang Evaluasi</span>
                 </button>
             </div>
-
-            <!-- Skenario Cepat -->
             <div class="mt-4 flex items-center gap-2 flex-wrap text-xs">
-                <span class="text-slate-400 font-medium">Skenario klinis:</span>
-                <button
-                    onclick="setPromptAndRun('Evaluasi ketahanan kerja & postur: metrik stabilitas fisik, beban otot lumbar/punggung, dan checklist istirahat')"
-                    class="bg-teal-50 hover:bg-teal-100 text-teal-800 px-3 py-1.5 rounded-full border border-teal-200 transition-colors">
-                    Ketahanan Kerja & Ergonomi
-                </button>
-                <button
-                    onclick="setPromptAndRun('Rehabilitasi cedera ligamen lutut (ACL): pemantauan pemulihan sendi, skala nyeri VAS, dan protokol fisioterapi')"
-                    class="bg-teal-50 hover:bg-teal-100 text-teal-800 px-3 py-1.5 rounded-full border border-teal-200 transition-colors">
-                    Rehabilitasi Sendi Lutut (ACL)
-                </button>
-                <button
-                    onclick="setPromptAndRun('Skrining kelelahan kardiovaskular atlet maraton: target denyut jantung, beban asam laktat kaki, dan hidrasi')"
-                    class="bg-teal-50 hover:bg-teal-100 text-teal-800 px-3 py-1.5 rounded-full border border-teal-200 transition-colors">
-                    Pemulihan Kardio Atlet
-                </button>
+                <span class="text-slate-400 font-medium">Skenario:</span>
+                <button onclick="setPromptAndRun('Evaluasi ergonomi kantor: ketegangan leher dan pergelangan tangan')"
+                    class="bg-teal-50 hover:bg-teal-100 text-teal-800 px-3 py-1.5 rounded-full border border-teal-200 transition-colors">Ergonomi
+                    Kantor</button>
+                <button onclick="setPromptAndRun('Rehabilitasi cedera ligamen lutut (ACL)')"
+                    class="bg-teal-50 hover:bg-teal-100 text-teal-800 px-3 py-1.5 rounded-full border border-teal-200 transition-colors">Rehabilitasi
+                    ACL</button>
             </div>
         </section>
 
-        <!-- Refinement / Evaluasi Klinis Lanjutan -->
         <section id="refinement-container"
             class="hidden mb-6 p-4 bg-gradient-to-r from-teal-50 via-cyan-50 to-white border border-teal-200 rounded-2xl shadow-xs">
             <div class="flex items-start gap-3">
                 <div
                     class="w-7 h-7 rounded-lg bg-teal-600 text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
-                    ✦
-                </div>
+                    ✦</div>
                 <div class="flex-1">
                     <p id="refinement-question" class="text-sm font-semibold text-slate-900 mb-1"></p>
-                    <p class="text-xs text-slate-500 mb-3">Tindakan rekomendasi AI untuk penyesuaian evaluasi:</p>
-                    <div id="refinement-options" class="flex flex-wrap gap-2"></div>
+                    <div id="refinement-options" class="flex flex-wrap gap-2 mt-3"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Judul Workspace -->
         <div id="canvas-header" class="hidden mb-4">
             <h2 id="workspace-title" class="text-xl font-bold text-slate-900 tracking-tight"></h2>
             <p id="workspace-desc" class="text-xs text-slate-600 mt-1 max-w-2xl"></p>
         </div>
 
-        <!-- Grid 12 Kolom -->
         <div id="canvas-grid" class="grid grid-cols-12 gap-5">
             <div id="empty-state"
                 class="col-span-12 border-2 border-dashed border-slate-200 rounded-2xl p-16 text-center bg-white/50">
-                <div
-                    class="w-12 h-12 mx-auto rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-3 font-mono">
-                    +
-                </div>
                 <h3 class="font-semibold text-slate-700 text-base mb-1">Kanvas Pemantauan Siap</h3>
-                <p class="text-sm text-slate-500 max-w-md mx-auto">
-                    Tuliskan kasus keluhan fisik atau evaluasi kebugaran di atas untuk membangun dashboard biomekanik
-                    terpadu.
-                </p>
+                <p class="text-sm text-slate-500 max-w-md mx-auto">Tuliskan kasus atau perintah di atas untuk merender
+                    dashboard dinamis.</p>
             </div>
         </div>
     </main>
 
     <script>
         let currentWorkspace = null;
-
-        // Peta koordinat organ tubuh komprehensif
         const coordinates = {
-            brain: { top: "12%", left: "50%" },
-            neck: { top: "19%", left: "50%" },
-            shoulders: { top: "25%", left: "34%" },
-            chest: { top: "27%", left: "50%" },
-            heart: { top: "28%", left: "54%" },
-            back: { top: "33%", left: "50%" },
-            abdomen: { top: "42%", left: "50%" },
-            arms: { top: "35%", left: "28%" },
-            wrists: { top: "52%", left: "22%" },
-            hips: { top: "52%", left: "50%" },
-            legs: { top: "65%", left: "42%" },
-            knees: { top: "75%", left: "42%" },
-            ankles: { top: "90%", left: "42%" }
+            brain: { top: "12%", left: "50%" }, neck: { top: "19%", left: "50%" },
+            shoulders: { top: "25%", left: "34%" }, chest: { top: "27%", left: "50%" },
+            heart: { top: "28%", left: "54%" }, back: { top: "33%", left: "50%" },
+            abdomen: { top: "42%", left: "50%" }, arms: { top: "35%", left: "28%" },
+            wrists: { top: "52%", left: "22%" }, hips: { top: "52%", left: "50%" },
+            legs: { top: "65%", left: "42%" }, knees: { top: "75%", left: "42%" }, ankles: { top: "90%", left: "42%" }
         };
 
-        function setPromptAndRun(text) {
-            document.getElementById("prompt-input").value = text;
-            handleGenerate(text);
-        }
+        function setPromptAndRun(text) { document.getElementById("prompt-input").value = text; handleGenerate(text); }
 
         async function handleGenerate(overrideQuery) {
             const input = document.getElementById("prompt-input");
@@ -140,11 +95,10 @@
 
             const btn = document.getElementById("btn-generate");
             const btnText = document.getElementById("btn-text");
-            btn.disabled = true;
-            btnText.textContent = "Menganalisis Klinis...";
+            btn.disabled = true; btnText.textContent = "Memproses...";
 
             try {
-                const res = await fetch("/api/generate-workspace", {
+                const res = await fetch("/api/v1/workspace/generate", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -152,18 +106,14 @@
                         previousContext: currentWorkspace ? JSON.stringify(currentWorkspace) : null
                     })
                 });
-
                 const data = await res.json();
-                if (!res.ok || !data.widgets) throw new Error(data.detail || "Gagal menyusun evaluasi klinis.");
-
                 currentWorkspace = data;
                 renderWorkspace(data);
                 input.value = "";
             } catch (err) {
-                alert(err.message || "Terjadi kesalahan pada server.");
+                alert("Gagal memproses permintaan.");
             } finally {
-                btn.disabled = false;
-                btnText.textContent = "Rancang Evaluasi";
+                btn.disabled = false; btnText.textContent = "Rancang Evaluasi";
             }
         }
 
@@ -173,7 +123,6 @@
             document.getElementById("workspace-title").textContent = ws.workspaceTitle;
             document.getElementById("workspace-desc").textContent = ws.description || "";
 
-            // Render Refinement
             const refBox = document.getElementById("refinement-container");
             if (ws.refinement) {
                 refBox.classList.remove("hidden");
@@ -182,221 +131,75 @@
                 optContainer.innerHTML = "";
                 ws.refinement.options.forEach(opt => {
                     const b = document.createElement("button");
-                    b.className = "text-xs font-medium bg-white hover:bg-teal-700 hover:text-white text-slate-700 border border-slate-200 hover:border-teal-700 px-3 py-1.5 rounded-lg transition-all shadow-xs";
+                    b.className = "text-xs font-medium bg-white hover:bg-teal-700 hover:text-white text-slate-700 border border-slate-200 px-3 py-1.5 rounded-lg transition-all shadow-xs";
                     b.textContent = "+ " + opt;
                     b.onclick = () => handleGenerate(opt);
                     optContainer.appendChild(b);
                 });
-            } else {
-                refBox.classList.add("hidden");
-            }
+            } else { refBox.classList.add("hidden"); }
 
-            // Render Grid Widgets
             const grid = document.getElementById("canvas-grid");
             grid.innerHTML = "";
-
             ws.widgets.forEach(widget => {
                 const col = Math.min(Math.max(widget.colSpan || 6, 3), 12);
                 const wrapper = document.createElement("div");
                 wrapper.style.gridColumn = `span ${col} / span ${col}`;
                 wrapper.className = "min-h-[220px]";
 
-                if (widget.type === "BodyAnatomyMap") {
-                    wrapper.innerHTML = renderBodyAnatomyMap(widget);
-                } else if (widget.type === "MetricCard") {
-                    wrapper.innerHTML = renderMetricCard(widget);
-                } else if (widget.type === "LineChart") {
-                    wrapper.innerHTML = renderLineChart(widget);
-                } else if (widget.type === "BarChart") {
-                    wrapper.innerHTML = renderBarChart(widget);
-                } else if (widget.type === "TaskTracker") {
-                    wrapper.innerHTML = renderTaskTracker(widget);
-                } else {
-                    wrapper.innerHTML = renderMarkdownNotes(widget);
+                let innerContent = `<h3 class="font-semibold text-sm text-slate-900 mb-3">${widget.title}</h3>`;
+
+                // 1. Cek jika memiliki data array (Bar/Line/Donut Chart)
+                if (widget.props?.data && Array.isArray(widget.props.data) && widget.props.data.length > 0) {
+                    const dataPoints = widget.props.data;
+                    const maxVal = Math.max(...dataPoints.map(d => d.value), 1);
+                    let barsHtml = '<div class="space-y-2.5 mt-2">';
+                    dataPoints.forEach(d => {
+                        const pct = Math.min(Math.max((d.value / maxVal) * 100, 5), 100);
+                        barsHtml += `
+              <div>
+                <div class="flex justify-between text-xs text-slate-600 mb-1 font-medium">
+                  <span>${d.label}</span>
+                  <span class="font-bold text-slate-900">${d.value}</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                  <div class="bg-teal-600 h-2.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+                </div>
+              </div>`;
+                    });
+                    barsHtml += '</div>';
+                    innerContent += barsHtml;
+                }
+                // 2. Cek jika tipe MetricCard
+                else if (widget.type === "MetricCard" || widget.props?.metricValue) {
+                    innerContent += `
+            <div class="flex items-baseline gap-2 mt-4">
+              <span class="text-4xl font-black text-teal-700">${widget.props?.metricValue || '0'}</span>
+              <span class="text-xs font-bold text-slate-400 uppercase">${widget.props?.unit || ''}</span>
+            </div>`;
+                }
+                // 3. Cek jika BodyAnatomyMap
+                else if (widget.type === "BodyAnatomyMap" || widget.props?.bodyPoints) {
+                    innerContent += `<div class="bg-slate-950 text-white rounded-xl p-4 flex flex-col justify-center min-h-[140px] mt-2">
+            <p class="text-xs text-teal-400 font-semibold mb-2">⚡ Pemindaian Titik Tubuh Aktif</p>`;
+                    (widget.props?.bodyPoints || []).forEach(p => {
+                        innerContent += `<div class="text-xs text-slate-300 bg-slate-900 px-3 py-2 rounded-lg w-full mb-1.5 flex justify-between items-center border border-slate-800">
+              <span class="font-bold capitalize text-white">${p.part}</span>
+              <span class="text-slate-400 text-right">${p.description}</span>
+            </div>`;
+                    });
+                    innerContent += `</div>`;
+                }
+                // 4. Fallback Cerdas: Jika tidak ada data chart, tapi ada deskripsi teks/catatan, tampilkan dengan rapi alih-alih kosong
+                else {
+                    const textContent = widget.props?.notesContent || widget.description || "Analisis biomekanik dan parameter klinis tercatat aktif.";
+                    innerContent += `<div class="bg-slate-50 border border-slate-100 p-3.5 rounded-xl mt-2">
+            <p class="text-xs text-slate-700 leading-relaxed">${textContent}</p>
+          </div>`;
                 }
 
+                wrapper.innerHTML = `<div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm h-full flex flex-col justify-between">${innerContent}</div>`;
                 grid.appendChild(wrapper);
             });
-        }
-
-        // 1. Template: Peta Anatomi Biomekanik X-Ray
-        function renderBodyAnatomyMap(w) {
-            const points = w.props?.bodyPoints || [
-                { part: "neck", status: "warning", description: "Ketegangan ligamen servikal akibat posisi kerja menunduk." },
-                { part: "wrists", status: "warning", description: "Beban kompresi berlebih pada pergelangan tangan." }
-            ];
-            const initial = points[0];
-
-            let dotsHtml = "";
-            points.forEach((p) => {
-                const coord = coordinates[p.part] || { top: "50%", left: "50%" };
-                const colorClass = p.status === "warning" ? "bg-rose-500 shadow-rose-500/50" : (p.status === "active" ? "bg-emerald-400 shadow-emerald-400/50" : "bg-cyan-400 shadow-cyan-400/50");
-                dotsHtml += `
-          <button 
-            onclick="updateBodyDetail('${w.id}', '${p.part}', '${p.status}', '${p.description.replace(/'/g, "\\'")}')"
-            style="top:${coord.top}; left:${coord.left}" 
-            class="absolute -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full flex items-center justify-center hover:scale-125 transition-transform"
-            title="${p.part}: ${p.status}"
-          >
-            <span class="w-2.5 h-2.5 rounded-full ${colorClass} shadow-md animate-pulse"></span>
-          </button>
-        `;
-            });
-
-            return `
-        <div class="bg-slate-950 text-white border border-slate-800 rounded-2xl p-6 shadow-md h-full flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-teal-400 bg-teal-950/70 border border-teal-800/60 px-2.5 py-1 rounded-md">Pemindaian Biomekanik</span>
-              <span class="text-xs text-slate-400">${points.length} Titik Terdeteksi</span>
-            </div>
-            <h3 class="font-semibold text-slate-100 text-sm mb-4">${w.title}</h3>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
-              <div class="relative w-40 h-64 mx-auto bg-slate-900/60 border border-slate-800 rounded-2xl flex items-center justify-center p-2 overflow-hidden">
-                <svg viewBox="0 0 100 200" class="w-full h-full opacity-40 text-teal-500 fill-current">
-                  <circle cx="50" cy="22" r="14" />
-                  <path d="M35,42 L65,42 L60,105 L40,105 Z" />
-                  <path d="M33,45 L18,105 L26,107 L37,55 Z" />
-                  <path d="M67,45 L82,105 L74,107 L63,55 Z" />
-                  <path d="M41,107 L38,190 L46,190 L48,107 Z" />
-                  <path d="M59,107 L62,190 L54,190 L52,107 Z" />
-                </svg>
-                ${dotsHtml}
-              </div>
-
-              <div id="body-detail-${w.id}" class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 flex flex-col justify-between min-h-[160px]">
-                <div>
-                  <div class="text-xs uppercase font-bold tracking-wider text-teal-300 mb-1">Fokus: ${initial.part}</div>
-                  <p class="text-xs text-slate-400 leading-relaxed">${initial.description}</p>
-                </div>
-                <div class="mt-4 pt-2 border-t border-slate-800 flex justify-between items-center text-[10px] text-slate-500">
-                  <span>Status: <strong class="text-slate-300 uppercase">${initial.status}</strong></span>
-                  <span class="text-teal-400">Sensor Aktif</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-        }
-
-        function updateBodyDetail(widgetId, part, status, desc) {
-            const container = document.getElementById(`body-detail-${widgetId}`);
-            if (!container) return;
-            container.innerHTML = `
-        <div>
-          <div class="text-xs uppercase font-bold tracking-wider text-teal-300 mb-1">Fokus: ${part}</div>
-          <p class="text-xs text-slate-400 leading-relaxed">${desc}</p>
-        </div>
-        <div class="mt-4 pt-2 border-t border-slate-800 flex justify-between items-center text-[10px] text-slate-500">
-          <span>Status: <strong class="text-slate-300 uppercase">${status}</strong></span>
-          <span class="text-teal-400">Sensor Aktif</span>
-        </div>
-      `;
-        }
-
-        // 2. Template: Kartu Indikator Klinis
-        function renderMetricCard(w) {
-            const val = w.props?.metricValue || "0";
-            const unit = w.props?.unit || "";
-            return `
-        <div class="bg-slate-900 text-white rounded-xl p-5 shadow-sm h-full flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-semibold tracking-wider uppercase text-slate-400">Indikator Vital</span>
-            <div class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></div>
-          </div>
-          <div class="my-2">
-            <h3 class="text-xs font-medium text-slate-300 mb-1">${w.title}</h3>
-            <p class="text-3xl font-extrabold tracking-tight text-white">${val} <span class="text-sm font-normal text-slate-400">${unit}</span></p>
-          </div>
-          <div class="text-[11px] text-slate-400 border-t border-slate-800 pt-2">Toleransi Medis Normal</div>
-        </div>
-      `;
-        }
-
-        // 3. Template: Grafik Tren Pemulihan
-        function renderLineChart(w) {
-            const data = w.props?.data || [{ label: "Fase 1", value: 40 }, { label: "Fase 2", value: 70 }, { label: "Fase 3", value: 90 }];
-            const unit = w.props?.unit || "";
-            let pointsHtml = "";
-            data.forEach(d => {
-                pointsHtml += `
-          <div class="p-2.5 bg-slate-50 border border-slate-100 rounded-xl text-center">
-            <span class="block text-[11px] text-slate-500 truncate mb-1">${d.label}</span>
-            <span class="text-base font-bold text-teal-600">${d.value}</span>
-            ${unit ? `<span class="text-[10px] text-slate-400 block">${unit}</span>` : ""}
-          </div>
-        `;
-            });
-            return `
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm h-full flex flex-col justify-between">
-          <div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md mb-2 inline-block">Tren Pemulihan</span>
-            <h3 class="font-semibold text-slate-800 text-sm mb-4">${w.title}</h3>
-            <div class="grid grid-cols-3 gap-2">${pointsHtml}</div>
-          </div>
-        </div>
-      `;
-        }
-
-        // 4. Template: Grafik Beban Distribusi
-        function renderBarChart(w) {
-            const data = w.props?.data || [{ label: "Beban A", value: 30 }, { label: "Beban B", value: 65 }];
-            const maxVal = Math.max(...data.map(d => d.value), 1);
-            let bars = "";
-            data.forEach(d => {
-                const pct = Math.min(Math.max((d.value / maxVal) * 100, 8), 100);
-                bars += `
-          <div class="text-xs mb-2">
-            <div class="flex justify-between text-slate-600 mb-1 font-medium"><span>${d.label}</span><span>${d.value}</span></div>
-            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-              <div class="h-full bg-teal-600 rounded-full" style="width: ${pct}%"></div>
-            </div>
-          </div>
-        `;
-            });
-            return `
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm h-full flex flex-col justify-between">
-          <div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md mb-2 inline-block">Distribusi Beban</span>
-            <h3 class="font-semibold text-slate-800 text-sm mb-4">${w.title}</h3>
-            ${bars}
-          </div>
-        </div>
-      `;
-        }
-
-        // 5. Template: Protokol Fisioterapi Checklist
-        function renderTaskTracker(w) {
-            return `
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm h-full flex flex-col justify-between">
-          <div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md mb-2 inline-block">Protokol Rehabilitasi</span>
-            <h3 class="font-semibold text-slate-800 text-sm mb-3">${w.title}</h3>
-            <ul class="space-y-2 text-xs text-slate-700">
-              <li class="flex items-center gap-2"><input type="checkbox" checked class="rounded text-teal-600 focus:ring-teal-500" /> Peregangan otot servikal & trapezius (10 mnt)</li>
-              <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-teal-600 focus:ring-teal-500" /> Mobilisasi sendi ekstremitas atas</li>
-              <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-teal-600 focus:ring-teal-500" /> Latihan isometrik penguatan otot inti</li>
-            </ul>
-          </div>
-        </div>
-      `;
-        }
-
-        // 6. Template: Catatan Klinis Observasi
-        function renderMarkdownNotes(w) {
-            return `
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm h-full flex flex-col">
-          <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md mb-2 inline-block">Catatan Fisioterapis</span>
-          <h3 class="font-semibold text-slate-800 text-sm mb-2">${w.title}</h3>
-          <textarea
-            placeholder="Tuliskan catatan observasi gejala pasien atau evaluasi sendi..."
-            class="flex-1 w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-teal-600 resize-none"
-            rows="4"
-          ></textarea>
-        </div>
-      `;
         }
     </script>
 </body>
